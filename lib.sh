@@ -198,7 +198,7 @@ isSELinux() {
 file_exist() {
     local f=$1
 
-    if [[ -f $f ]]; then
+    if [[ -f "$f" ]]; then
         true
         return
     else
@@ -210,7 +210,7 @@ file_exist() {
 dir_exist() {
     local d=$1
 
-    if [[ -d $d ]]; then
+    if [[ -d "$d" ]]; then
         true
         return
     else
@@ -222,10 +222,10 @@ dir_exist() {
 dir_or_file_exist() {
     local df=$1
 
-    if [[ -d $df ]]; then
+    if [[ -d "$df" ]]; then
         true
         return
-    elif [[ -f $df ]]; then
+    elif [[ -f "$df" ]]; then
         true
         return
     else
