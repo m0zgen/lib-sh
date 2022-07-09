@@ -61,7 +61,7 @@ exitNon() {
 }
 
 exitOne() {
-    Info "Ok, bye!"
+    Info "Script exit. Bye."
     exit 1
 }
 
