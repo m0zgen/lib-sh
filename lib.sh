@@ -169,9 +169,9 @@ isSELinux() {
 
 # If file exist true / false
 file_exist() {
-    local PASSED=$1
+    local f=$1
 
-    if [[ -f $PASSED ]]; then
+    if [[ -f $f ]]; then
         return 1
     else
         return 0
@@ -179,9 +179,9 @@ file_exist() {
 }
 
 dir_exist() {
-    local PASSED=$1
+    local d=$1
 
-    if [[ -d $PASSED ]]; then
+    if [[ -d $d ]]; then
         return 1
     else
         return 0
@@ -189,11 +189,11 @@ dir_exist() {
 }
 
 dir_or_file_exist() {
-    local PASSED=$1
+    local df=$1
 
-    if [[ -d $PASSED ]]; then
+    if [[ -d $df ]]; then
         return 1
-    elif [[ -f $PASSED ]]; then
+    elif [[ -f $df ]]; then
         return 1
     else
         return 0
