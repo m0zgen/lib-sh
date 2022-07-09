@@ -55,6 +55,20 @@ space() {
   echo -e ""
 }
 
+exitNon() {
+    Info "Ok, bye!"
+    exit 1
+}
+
+exitOne() {
+    Info "Ok, bye!"
+    exit 1
+}
+
+_exit() {
+    exitOne
+}
+
 # Functions
 # ---------------------------------------------------\
 
@@ -94,6 +108,20 @@ checkDistro() {
   fi
 }
 
+# Yes / No confirmation
+confirm() {
+    # call with a prompt string or use a default
+    read -r -p "${1:-Are you sure? [y/N]} " response
+    case "$response" in
+        [yY][eE][sS]|[yY]) 
+            true
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+
 # get Actual date
 getDate() {
     date '+%d-%m-%Y_%H-%M-%S'
@@ -120,4 +148,65 @@ service_exists() {
     else
         return 1
     fi
+}
+
+# SELinux status
+isSELinux() {
+
+    if [[ "$RPM" -eq "1" ]]; then
+        selinuxenabled
+        if [ $? -ne 0 ]
+        then
+            Error "SELinux:\t\t" "DISABLED"
+            return 0
+        else
+            Info "SELinux:\t\t" "ENABLED"
+            return 1
+        fi
+    fi
+
+}
+
+# If file exist true / false
+isFileExist() {
+    local PASSED=$1
+
+    if [[ -d $PASSED ]]; then
+        return 1
+    elif [[ -f $PASSED ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+# Unit services status
+chk_SvsStatus() {
+    systemctl is-active --quiet $1 && Info "$1: " "Running" || Error "$1: " "Stopped"
+}
+
+# Checking active status from systemd unit (prev)
+chk_SvcExist() {
+    local n=$1
+    if [[ $(systemctl list-units --all -t service --full --no-legend "$n.service" | cut -f1 -d' ') == $n.service ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Checking active status from systemd unit (latest)
+isServiceExist() {
+    local n=$1
+    if [[ $(systemctl list-units --all -t service --full --no-legend "$n.service" | sed 's/^\s*//g' | cut -f1 -d' ') == $n.service ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+
+allowFirewalldService() {
+    #statements
+    firewall-cmd --permanent --zone=$2 --add-service=$1
 }
