@@ -168,7 +168,27 @@ isSELinux() {
 }
 
 # If file exist true / false
-isFileExist() {
+file_exist() {
+    local PASSED=$1
+
+    if [[ -f $PASSED ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+dir_exist() {
+    local PASSED=$1
+
+    if [[ -d $PASSED ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+dir_or_file_exist() {
     local PASSED=$1
 
     if [[ -d $PASSED ]]; then
@@ -196,7 +216,7 @@ chk_SvcExist() {
 }
 
 # Checking active status from systemd unit (latest)
-isServiceExist() {
+service_exists() {
     local n=$1
     if [[ $(systemctl list-units --all -t service --full --no-legend "$n.service" | sed 's/^\s*//g' | cut -f1 -d' ') == $n.service ]]; then
         return 0
