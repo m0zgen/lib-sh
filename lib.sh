@@ -104,7 +104,7 @@ checkDistro() {
     DEB=1
   else
       Error "Your distribution is not supported (yet)"
-      exit 1
+      # exit 1
   fi
 }
 
@@ -124,7 +124,7 @@ get_distro() {
         ;;
     esac
 
-    echo ${OS}
+    # echo ${OS}
 }
 
 # Yes / No confirmation
