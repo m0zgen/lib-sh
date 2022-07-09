@@ -108,6 +108,25 @@ checkDistro() {
   fi
 }
 
+get_distro() {
+    case $(uname | tr '[:upper:]' '[:lower:]') in
+      linux*)
+        OS=linux
+        ;;
+      darwin*)
+        OS=osx
+        ;;
+      msys*)
+        OS=windows
+        ;;
+      *)
+        OS=none
+        ;;
+    esac
+
+    echo ${OS}
+}
+
 # Yes / No confirmation
 confirm() {
     # call with a prompt string or use a default
