@@ -199,9 +199,11 @@ file_exist() {
     local f=$1
 
     if [[ -f $f ]]; then
-        return 1
+        true
+        return
     else
-        return 0
+        false
+        return
     fi
 }
 
@@ -209,9 +211,11 @@ dir_exist() {
     local d=$1
 
     if [[ -d $d ]]; then
-        return 1
+        true
+        return
     else
-        return 0
+        false
+        return
     fi
 }
 
@@ -219,11 +223,14 @@ dir_or_file_exist() {
     local df=$1
 
     if [[ -d $df ]]; then
-        return 1
+        true
+        return
     elif [[ -f $df ]]; then
-        return 1
+        true
+        return
     else
-        return 0
+        false
+        return
     fi
 }
 
